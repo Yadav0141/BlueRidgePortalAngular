@@ -1,0 +1,14 @@
+<div class="input-group">
+  <span class="input-group-btn">
+      <span class="btn btn-light btn-file">
+          Browse… <input id="{{inputFileId}}" #myInput name="{{inputFileId}}" [multiple]="false" (change)="onFileChange($event)" type="file">
+
+      </span>
+  </span>
+  <input type="text" class="form-control"  *ngIf="imgSource" value="{{FileName}}" readonly>
+  <a class="btn btn-primary"  *ngIf="imgSource" title="Download" target="_blank" href="{{imgSource}}"><i  aria-hidden="true"  class="fa fa-download"></i></a>
+</div>
+<img id='img-upload' *ngIf="imgSource"  [src]="imgSource" height="180px"/>
+<small><p class="text-info">The files to be uploaded over here should be in {{fileExt}} extensions. Maximum file size should be {{maxSize}} MB.</p>
+</small>
+<div class="text-danger" *ngIf="errors.length>0">{{errors[0]}}</div>

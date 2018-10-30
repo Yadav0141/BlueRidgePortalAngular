@@ -1,0 +1,165 @@
+<div class="container">
+  <form name="form"  #addEditForm="ngForm" novalidate>
+      <div class="row mt-5 align-center">
+          <h4>  {{userId?'Edit':'Add'}} User</h4>
+      </div>
+    <div class="row mt-5">
+      <div class="col-md-4">
+         
+          <div class="form-group">
+              <label for="employeeId">Employee Code <sup class="text-danger">*</sup></label>
+              <input type="text" name="employeeId" maxlength="50" #employeeId="ngModel"  required placeholder="Enter Employee Code" [(ngModel)]="addEditModel.employeeId"  id="employeeId" class="form-control"  />
+              <div class="text-danger"*ngIf="employeeId.invalid && employeeId.touched" >
+                Employee code is required.
+              </div>
+            </div>
+        <div class="form-group">
+            <label for="lastName">Last Name <sup class="text-danger">*</sup></label>
+            <input type="text"   required #lastName="ngModel" placeholder="Enter Last Name" name="lastName" maxlength="100" [(ngModel)]="addEditModel.lastName"  id="lastName" class="form-control"  />
+            <div class="text-danger"*ngIf="lastName.invalid && lastName.touched" >
+              Employee last name is required.
+            </div>
+          </div>
+        <div class="form-group">
+          <label for="roleId">Designation <sup class="text-danger">*</sup></label>
+         
+          <select name="roleId" [(ngModel)]="addEditModel.roleId" #roleId="ngModel"  required  id="roleId" class="form-control">
+            <option selected value=''>Select Designation</option>
+            <option *ngFor="let role of roleList"  [value]="role.value">{{role.text}}</option>
+      
+          </select>
+          <div class="text-danger"*ngIf="roleId.invalid && roleId.touched" >
+            Please select designation.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="phoneNumber">Phone Number <sup class="text-danger">*</sup></label>
+          <input type="text" name="phoneNumber" placeholder="Enter Phone Number" maxlength="20" #phoneNumber="ngModel"  required  [(ngModel)]="addEditModel.phoneNumber"  id="phoneNumber" pattern="((?:\+|00)[17](?: |\-)?|(?:\+|00)[1-9]\d{0,2}(?: |\-)?|(?:\+|00)1\-\d{3}(?: |\-)?)?(0\d|\([0-9]{3}\)|[1-9]{0,3})(?:((?: |\-)[0-9]{2}){4}|((?:[0-9]{2}){4})|((?: |\-)[0-9]{3}(?: |\-)[0-9]{4})|([0-9]{7}))" class="form-control"  />
+          <div class="text-danger"*ngIf="phoneNumber.invalid && phoneNumber.touched" >
+            Please enter valid phone number.
+          </div>
+        </div>
+      <div class="form-group">
+        <label for="panCardNumber">PAN Card Number <sup class="text-danger">*</sup></label>
+        <input type="text" name="panCardNumber" placeholder="Enter PAN Card Number" maxlength="20" #panCardNumber="ngModel"  required [(ngModel)]="addEditModel.panCardNumber"  id="panCardNumber" class="form-control"  />
+        <div class="text-danger"*ngIf="panCardNumber.invalid && panCardNumber.touched" >
+          Employee pan card number is required.
+        </div>
+      </div>
+    <div class="form-group">
+        <label>Upload Aadhaar Document</label>
+        <app-file-upload [fileExt]="validExtensions" [maxSize]="5" [imgSource]="aadhaarCardSource"  [FileName]="addEditModel.aadhaarCardFileName"
+        [selectedDocument]="selectedAadhaarCardDocument"  [inputFileId]="'file-inputAadhaarCard'" (uploadOtherFile)="uploadAadhaarCardFile($event)"></app-file-upload>
+      </div>
+      </div>
+      <div class="col-md-4">
+        
+          <div class="form-group">
+              <label for="firstName">First Name <sup class="text-danger">*</sup></label>
+              <input type="text" name="firstName" placeholder="Enter First Name" maxlength="100" #firstName="ngModel"  required  [(ngModel)]="addEditModel.firstName"  id="firstName" class="form-control"  />
+              <div class="text-danger"*ngIf="firstName.invalid && firstName.touched" >
+                Employee first name is required.
+              </div>
+            </div>
+          <div class="form-group">
+            <label for="emailId">Email Id <sup class="text-danger">*</sup></label>
+            <input type="text" name="emailId" placeholder="Enter Email Address" maxlength="100"  #emailId="ngModel"  required [(ngModel)]="addEditModel.emailId"  id="emailId" class="form-control" pattern="^[a-zA-Z0-9_.+-]+@(?:(?:[a-zA-Z0-9-]+\.)?[a-zA-Z]+\.)?(blueridgeglobal)\.com$"  />
+            <small class="text-info">Domain : blueridgeglobal.com</small>
+         
+            <div class="text-danger"*ngIf="emailId.invalid && emailId.touched" >
+              Please enter valid email id.
+            </div> 
+          </div>
+          <div class="form-group">
+            <label for="address">Address <sup class="text-danger">*</sup></label>
+            <textarea type="text" name="address" placeholder="Enter Address" maxlength="255" #address="ngModel"  required [(ngModel)]="addEditModel.address"  id="address" class="form-control"  cols="30" rows="4"></textarea>
+            <div class="text-danger"*ngIf="address.invalid && address.touched" >
+              Employee address is required.
+            </div>
+          </div>
+         
+
+        <div class="form-group">
+            <label for="joiningDate">Joining Date <sup class="text-danger">*</sup></label>
+            <div class="input-group">
+               
+                  <input class="form-control" readonly id="joiningDate" #joiningDate="ngModel"  required placeholder="Select Joining Date"
+                         name="joiningDate" [(ngModel)]="addEditModel.parsedJoiningDate" ngbDatepicker #d1="ngbDatepicker">
+                  <div class="input-group-append">
+                    <button class="btn btn-primary" (click)="d1.toggle()" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                  </div>
+                 
+                </div>
+                <div class="text-danger"*ngIf="joiningDate.invalid && joiningDate.touched" >
+                  Employee joining date is required.
+                </div>
+        </div>
+        <div class="form-group">
+            <label>Upload PAN Card</label>
+            
+            <app-file-upload [fileExt]="validExtensions" [maxSize]="5" [imgSource]="panCardSource"   [FileName]="addEditModel.panCardFileName"
+            [selectedDocument]="selectedPANCardDocument" [inputFileId]="'file-inputPANCard'" (uploadOtherFile)="uploadPANCardFile($event)"></app-file-upload>
+        </div>
+      </div>
+      <div class="col-md-4">
+        
+        <div class="form-group">
+            <label for="middleName">Middle Name</label>
+            <input type="text" name="middleName" [(ngModel)]="addEditModel.middleName" maxlength="100"  placeholder="Enter Middle Name" id="middleName" class="form-control"  />
+        </div>
+        <div class="form-group">
+          <label for="password">Password <sup class="text-danger">*</sup></label>
+          <input type="password" name="password"  #password="ngModel" maxlength="20" minlength="8"    [(ngModel)]="addEditModel.password" placeholder="Enter Password"  id="password" class="form-control"  />
+          <small class="text-info">min : 8 char, max : 20 char</small>
+         
+          <div class="text-danger"*ngIf="password.invalid && password.touched" >
+            Please enter valid password.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="superVisorId">Select Reporting To <sup class="text-danger">*</sup></label>
+         
+          <select name="superVisorId" #superVisorId="ngModel"  required [(ngModel)]="addEditModel.superVisorId"  id="superVisorId" class="form-control">
+            <option selected value=''>Select Reporting To</option>
+            
+            <option *ngFor="let user of userList"  [value]="user.value">{{user.text}}</option>
+      
+          </select>
+          <div class="text-danger"*ngIf="superVisorId.invalid && superVisorId.touched" >
+           Please select reporting to.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="aadhaarNumber">Aadhaar Number <sup class="text-danger">*</sup></label>
+          <input type="text" name="aadhaarNumber" #aadhaarNumber="ngModel" maxlength="20"  required placeholder="Enter Aadhaar Number" [(ngModel)]="addEditModel.aadhaarNumber"  id="aadhaarNumber" class="form-control"  />
+          <div class="text-danger"*ngIf="aadhaarNumber.invalid && aadhaarNumber.touched" >
+            Employee aadhaar number is required.
+           </div>
+        </div>
+     
+
+      <div class="form-group">
+          <label for="exitDate">Exit Date </label>
+          <div class="input-group">
+             
+                <input class="form-control" readonly id="exitDate" placeholder="Select Exit Date"
+                       name="exitDate" [(ngModel)]="addEditModel.parsedExitDate" ngbDatepicker #d2="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="btn btn-primary" (click)="d2.toggle()" type="button"><i class="fa fa-calendar" aria-hidden="true"></i></button>
+                </div>
+              </div>
+
+      </div>
+
+     
+    </div>
+  
+    </div>
+    <div class="text-right m-3">
+        <button type="button" class="btn btn-default mr-2" >Cancel</button>
+ 
+      <button type="submit" class="btn btn-primary " (click)="markFormGroupTouched(addEditForm) && addEditForm.form.valid && addEditUserForm();"  [disabled]="isSubmitDisable==true">Save</button>
+            
+    </div>
+  </form>
+  </div>

@@ -1,0 +1,155 @@
+<div class="container">
+<form name="form"  #backupForm="ngForm" novalidate>
+    <div class="row mt-5 align-center">
+        <h4>  Backup & Restore Utility </h4>
+    </div>
+  <div class="row mt-5">
+    <div class="col-md-6">
+        <h4>
+            Source Configuration
+        </h4>
+        <div class="form-group">
+            <label for="sourceDatabaseIP">Source IP Address</label>
+            <input type="text" name="sourceDatabaseIP" [(ngModel)]="backupOrRestoreModel.sourceIpAddress" disabled id="sourceDatabaseIP" class="form-control"  />
+        </div>
+        <div class="form-group">
+            <label for="sourceDatabaseUsername">  Username <sup class="text-danger">*</sup> </label>
+            <input type="text" name="sourceDatabaseUsername" #sourceDatabaseUsername="ngModel"   [(ngModel)]="backupOrRestoreModel.sourceDatabaseUsername"  id="sourceDatabaseUsername" class="form-control" required  />
+            <div class="text-danger"*ngIf="sourceDatabaseUsername.invalid && sourceDatabaseUsername.touched" >
+                Please enter source database username.
+              </div>
+        </div>
+        <div class="form-group">
+            <label for="sourceDatabasePassword">  Password <sup class="text-danger">*</sup> </label>
+            <input type="text" name="sourceDatabasePassword" #sourceDatabasePassword="ngModel" [(ngModel)]="backupOrRestoreModel.sourceDatabasePassword"  id="sourceDatabasePassword" class="form-control" required  />
+            <div class="text-danger"*ngIf="sourceDatabasePassword.invalid && sourceDatabasePassword.touched" >
+                Please enter source database password.
+              </div>
+        </div>
+        <div class="form-group">
+            <label for="sourceDatabaseName"> Database Name <sup class="text-danger">*</sup> </label>
+            <select id="sourceDatabaseName" name="sourceDatabaseName" #sourceDatabaseName="ngModel" [(ngModel)]="backupOrRestoreModel.sourceDatabaseId" required class="form-control">
+              <option value="">Select Source Database</option>
+              <option *ngFor="let database of sourceDatabases"  [value]="database.database_id">{{database.name}}</option>
+            </select>
+           
+
+         <div class="text-danger" *ngIf="sourceDatabaseName.invalid && sourceDatabaseName.touched" >
+           Please select source database.
+         </div>
+        </div>
+        <div class="form-group" *ngIf="isSubmitDisable">
+            <h4>Backup</h4>
+            <circle-progress
+            [percent]="backup_PercentComplete"
+            [radius]="50"
+            [title]="Backup"
+            [outerStrokeWidth]="8"
+            [innerStrokeWidth]="4"
+            [outerStrokeColor]="'#78C000'"
+            [innerStrokeColor]="'#C7E596'"
+            [animation]="true"
+            [animationDuration]="300"
+          ></circle-progress>
+          </div>
+        
+    </div>
+    <div class="col-md-6">
+        <h4>
+            Destination Configuration
+        </h4>
+        <div class="form-group">
+            <label for="destinationDatabaseIP">Destination IP Address</label>
+            <input type="text" name="destinationDatabaseIP" [(ngModel)]="backupOrRestoreModel.destinationIpAddress" disabled id="destinationDatabaseIP" class="form-control"  />
+        </div>
+        <div class="form-group">
+            <label for="destinationDatabaseUsername">  Username <sup class="text-danger">*</sup> </label>
+            <input type="text" name="destinationDatabaseUsername" #destinationDatabaseUsername="ngModel"   [(ngModel)]="backupOrRestoreModel.destinationDatabaseUsername"  id="destinationDatabaseUsername" class="form-control" required  />
+            <div class="text-danger"*ngIf="destinationDatabaseUsername.invalid && destinationDatabaseUsername.touched" >
+                Please enter destination database username.
+              </div>
+        </div>
+        <div class="form-group">
+            <label for="destinationDatabasePassword">  Password <sup class="text-danger">*</sup> </label>
+            <input type="text" name="destinationDatabasePassword" #destinationDatabasePassword="ngModel" [(ngModel)]="backupOrRestoreModel.destinationDatabasePassword"  id="destinationDatabasePassword" class="form-control" required  />
+            <div class="text-danger"*ngIf="destinationDatabasePassword.invalid && destinationDatabasePassword.touched" >
+                Please enter destination database password.
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="destinationDatabaseName"> Database Name <sup class="text-danger">*</sup></label>
+            <input name="destinationDatabaseName" class="form-control" (blur)="errors=[];" [(ngModel)]="backupOrRestoreModel.destinationDatabaseName"  #destinationDatabaseName="ngModel"  id="destinationDatabaseName" required >
+            <div class="text-danger" *ngIf="destinationDatabaseName.invalid && destinationDatabaseName.touched">
+                Destination database name is required.
+              </div>
+              <div class="text-danger" *ngFor="let error of errors">
+                        {{error}}
+              </div>
+       </div>
+      <div class="form-group" *ngIf="isSubmitDisable">
+          <h4>Restore</h4>
+        <circle-progress
+        [percent]="myRestore_PercentComplete"
+        [title]="Restore"
+        [radius]="50"
+        [outerStrokeWidth]="8"
+        [innerStrokeWidth]="4"
+        [outerStrokeColor]="'#78C000'"
+        [innerStrokeColor]="'#C7E596'"
+        [animation]="true"
+        [animationDuration]="300"
+      ></circle-progress>
+      </div>
+       
+       
+    </div>
+
+  </div>
+  <div class="row">
+        <div class="form-group mt-5">
+                <button type="submit" class="btn btn-primary" (click)="markFormGroupTouched(backupForm) && backupForm.form.valid && open(content);"  [disabled]="isSubmitDisable==true">Backup & Restore</button>
+            </div>
+  </div>
+</form>
+</div>
+
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Confirm Backup</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+     
+        <div class="form-group">
+            Are you sure you want to take backup ?
+        </div>
+      
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+    </div>
+  </ng-template>
+
+  <ng-template #contentBackupResult let-modal>
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Backup & Restore Complete</h4>
+          <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+         
+            <div class="form-group">
+                Selected database is successfully backup and restored successfully.
+            </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+          <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+        </div>
+      </ng-template>
