@@ -25,6 +25,8 @@ import { HeaderInterceptor } from '../Interceptors/HeaderInterceptor';
 import { CookieService } from 'ngx-cookie-service';
 import { BlueRidgeUtilityAuthGuard } from '../authguards/blue-ridge-portal-utility-auth.guard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { BackupRestoreHistoryListComponent } from './backup-restore-history-list/backup-restore-history-list.component';
 // >= v2.0.0
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -47,7 +49,9 @@ export function createConfig(): SignalRConfiguration {
     AddEditUserComponent,
     FileUploadComponent,
     UserLoginComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
+    PasswordResetComponent,
+    BackupRestoreHistoryListComponent
     
   ],
   imports: [

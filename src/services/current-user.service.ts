@@ -24,6 +24,18 @@ export class CurrentUserService {
     return this.http.delete(environment.API_URL+'auth/logout')
   }
   
+  resetPassword(model){
+    return this.http.post(environment.API_URL+`auth/sendresetpasswordlink`,model);
+
+  }
+
+  validateResetToken(model){
+    return this.http.post(environment.API_URL+`auth/validateResetToken`,model);
+  }
+  setPassword(model){
+    return this.http.post(environment.API_URL+`auth/setpassword`,model);
+
+  }
   StoreUser(responseModel)
   {
      if(responseModel)
