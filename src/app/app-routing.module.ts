@@ -10,6 +10,7 @@ import { UserLoginComponent } from './user-login/user-login.component';
 import { BlueRidgeUtilityAuthGuard } from '../authguards/blue-ridge-portal-utility-auth.guard';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
+import { BackupRestoreHistoryListComponent } from './backup-restore-history-list/backup-restore-history-list.component';
 
 @Injectable()
 export class ConnectionResolver implements Resolve<ISignalRConnection> {
@@ -30,6 +31,7 @@ const routes: Routes = [{path:'backup',component:BackupOrRestoreComponent,resolv
                         {path:'login',component:UserLoginComponent},
                         {path:'forgot_password',component:ForgotPasswordComponent},
                         {path:'resetpassword/:resetToken',component:PasswordResetComponent},
+                        {path:'bkp_history',component:BackupRestoreHistoryListComponent,canActivate: [BlueRidgeUtilityAuthGuard]},
                         {path:'',redirectTo:'login', pathMatch: 'full'}];
 
 @NgModule({

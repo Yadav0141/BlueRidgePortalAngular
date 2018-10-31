@@ -1,7 +1,7 @@
 
 
 <div class="text-right m-3">
-  <a  routerLink="/add_edit_user" class="btn btn-primary d-inline">Add User</a>
+  <a  routerLink="/backup" class="btn btn-primary d-inline">Backup Database</a>
 </div>
 <div class="table-responsive-sm">          
     <table class="table">
@@ -19,14 +19,16 @@
         </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let user of lstUsers">
-              <td>{{user.srNo}}</td>
-              <td>{{user.employeeId}}</td>
-              <td>{{user.firstName}} {{user.lastName}}</td>
-              <td>{{user.designation}}</td>
-              <td>{{user.reportingTo}}</td>
-              <td><a class="p-1" [routerLink]="['/add_edit_user',user.userId]"  title="Edit"><i class="fa fa-edit"></i></a>
-                <a href="javascript:void(0)" class="p-1" title="Delete"><i class="fa fa-trash"></i></a></td>
+          <tr *ngFor="let history of lstHistory">
+              <td>{{history.srNo}}</td>
+              <td>{{history.sourceIpAddress}}</td>
+              <td>{{history.sourceDatabaseName}}</td>
+              <td>{{history.destinationIpAddress}}</td>
+              <td>{{history.destinationDatabaseName}}</td>
+              <td>{{history.createdDate | date}}</td>
+              <td>{{history.backupPercentage?history.backupPercentage:0}} %</td>
+              <td>{{history.restorePercentage?history.restorePercentage:0}} %</td>
+              <td>{{history.status}}</td>
              
             </tr>
         

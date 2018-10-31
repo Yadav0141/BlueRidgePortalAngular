@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ManageUserService } from '../../services/manage-user.service';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
 @Component({
@@ -11,7 +11,8 @@ import { environment } from '../../environments/environment';
 })
 export class AddEditUserComponent implements OnInit {
 
-  constructor(private _manageUserService:ManageUserService ,private route:ActivatedRoute) { }
+  constructor(private _manageUserService:ManageUserService ,private route:ActivatedRoute,
+    private router:Router) { }
  public addEditModel:any={};
  public validExtensions="JPG,JPEG,PNG";
  public selectedPANCardDocument='';
@@ -24,6 +25,8 @@ public userList:any;
 public PanCardUploadFile:File;
 public AadhaarUploadFile:File;
 public userId:string='';
+public successResult='';
+public errors=[];
 ngOnInit() {
 
   
@@ -72,6 +75,19 @@ this.route.paramMap.subscribe((params: ParamMap) =>  {
     this._manageUserService.AddEditUser(this.addEditModel,files).subscribe(x=>{
        
         this.isSubmitDisable=false;
+        this.successResult='User saved successfully.';
+    },(error:any)=>{
+      this.isSubmitDisable=false;
+      if(error && error.error && error.error.ModelState)
+      {
+       let ModelState=error.error.ModelState;
+       for (var key in ModelState) {
+         for (var i = 0; i < ModelState[key].length; i++) {
+  
+             this.errors.push(ModelState[key][i]);
+         }
+     }
+   }
     });
   }
 
@@ -86,6 +102,9 @@ this.route.paramMap.subscribe((params: ParamMap) =>  {
     return true;
   }
 
+  public GoToList(){
+    this.router.navigate(['/user_list']);
+  }
   public uploadPANCardFile(event){
        
         if(!event.error)

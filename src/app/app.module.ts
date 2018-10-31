@@ -27,6 +27,7 @@ import { BlueRidgeUtilityAuthGuard } from '../authguards/blue-ridge-portal-utili
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { BackupRestoreHistoryListComponent } from './backup-restore-history-list/backup-restore-history-list.component';
+import { Router } from '../../node_modules/@angular/router';
 // >= v2.0.0
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -75,7 +76,7 @@ export function createConfig(): SignalRConfiguration {
   ],
   providers: [BackupOrRestoreService,ManageUserService,
               CurrentUserService,ConnectionResolver,
-              { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true },
+              { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true,deps: [Router,CurrentUserService] },
               CookieService,BlueRidgeUtilityAuthGuard],
   bootstrap: [AppComponent]
 })

@@ -18,4 +18,8 @@ export class BackupOrRestoreService {
 
     return this.http.post(environment.API_URL+'BackupOrRestore/Backup_Restore',model);
   }
+
+  GetBackupHistorybyUser(pageNumber,pageCount){
+    return this.http.get(environment.API_URL+`BackupOrRestore/getbackuphistorybyuser?pageNumber=${pageNumber}&pageCount=${pageCount}`);
+  }
 }
