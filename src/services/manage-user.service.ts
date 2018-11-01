@@ -36,4 +36,8 @@ GetAllSelectListForAddEditUser()
     return this.http.get(environment.API_URL+`User/GetUserById?userId=${userId}`);
 
   }
+
+  deleteUser(userId:string){
+    return this.http.delete(environment.API_URL+`User/DeleteUser?userId=${userId}`); 
+  }
 }

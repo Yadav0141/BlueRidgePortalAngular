@@ -24,10 +24,30 @@
               <td>{{user.designation}}</td>
               <td>{{user.reportingTo}}</td>
               <td><a class="p-1" [routerLink]="['/add_edit_user',user.userId]"  title="Edit"><i class="fa fa-edit"></i></a>
-                <a href="javascript:void(0)" class="p-1" title="Delete"><i class="fa fa-trash"></i></a></td>
+                <a style="cursor: pointer;" (click)="open(content,user.userId)" class="p-1" title="Delete"><i  class="text-danger fa fa-trash"></i></a></td>
              
             </tr>
         
       </tbody>
     </table>
     </div>
+
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Confirm Delete</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+       
+          <div class="form-group">
+              Are you sure you want to delete this user ?
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ok</button>
+      </div>
+    </ng-template>
