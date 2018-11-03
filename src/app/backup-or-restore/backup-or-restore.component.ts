@@ -17,10 +17,10 @@ export class BackupOrRestoreComponent implements OnInit {
   constructor(private BackupOrRestoreService:BackupOrRestoreService,private route: ActivatedRoute,
     private _modalService: NgbModal) { }
   sourceDatabases:any;
-  backupOrRestoreModel:any={sourceDatabaseId:'',sourceIpAddress:''
-                           ,sourceDatabaseName:'',sourceDatabaseUsername:'',sourceDatabasePassword:'',
-                            destinationIpAddress:'',destinationDatabaseName:'',uniqueTaskId:uuid(),destinationDatabasePassword:'',
-                            destinationDatabaseUsername:'' };
+  destinationDBServers:any;
+  backupOrRestoreModel:any={sourceDatabaseId:'',sourceServerId:'',sourceDatabaseSelected:''
+                           ,sourceDatabaseName:'',destinationDatabaseName:''
+                           ,uniqueTaskId:uuid(),destinationServerId:'' };
   isSubmitDisable:boolean=false;
   errors=[];
   backup_PercentComplete:any=0;
@@ -53,14 +53,8 @@ export class BackupOrRestoreComponent implements OnInit {
     });
 
     this.BackupOrRestoreService.GetAllSourceDatabaseNames().subscribe((x:any)=>{
-      this.sourceDatabases=x.selectList;
-      this.backupOrRestoreModel.sourceIpAddress=x.sourceIpAddress;
-      this.backupOrRestoreModel.sourceDatabaseUsername=x.sourceUsername;
-      this.backupOrRestoreModel.sourceDatabasePassword=x.sourcePassword;
-     
-      this.backupOrRestoreModel.destinationIpAddress=x.destinationIpAddress;
-      this.backupOrRestoreModel.destinationDatabaseUsername=x.destinationUsername;
-      this.backupOrRestoreModel.destinationDatabasePassword=x.destinationPassword;
+      this.sourceDatabases=x.sourceServerSelectList;
+      this.destinationDBServers=x.destinationDBServers;
       
     
     },(error_response:any)=>{
@@ -99,12 +93,15 @@ public parseErrors(response) {
     this.isSubmitDisable=true;
     if(this.sourceDatabases && this.sourceDatabases.length>0)
     {
-      let selectedDatabase=this.sourceDatabases.filter(database => database.database_id==this.backupOrRestoreModel.sourceDatabaseId);
+      let selectedDatabase=this.sourceDatabases.filter(database => database.value==this.backupOrRestoreModel.sourceDatabaseSelected);
     
       if(selectedDatabase && selectedDatabase.length>0)
-      {
+      { 
         this.backupOrRestoreModel.sourceDatabaseName=selectedDatabase[0].name;
-     }
+        this.backupOrRestoreModel.sourceDatabaseId=this.backupOrRestoreModel.sourceDatabaseSelected.split('_')[1];
+        this.backupOrRestoreModel.sourceServerId=this.backupOrRestoreModel.sourceDatabaseSelected.split('_')[0];
+        this.backupOrRestoreModel.destinationDatabaseName=`${this.backupOrRestoreModel.sourceDatabaseName}_${this.backupOrRestoreModel.destinationDatabaseName}`;
+      }
     }
    
     this.BackupOrRestoreService.TakeBackup_Restore(this.backupOrRestoreModel).subscribe(x=>{

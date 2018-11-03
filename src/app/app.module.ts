@@ -28,6 +28,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { BackupRestoreHistoryListComponent } from './backup-restore-history-list/backup-restore-history-list.component';
 import { Router } from '../../node_modules/@angular/router';
+
 // >= v2.0.0
 export function createConfig(): SignalRConfiguration {
   const c = new SignalRConfiguration();
@@ -52,7 +53,8 @@ export function createConfig(): SignalRConfiguration {
     UserLoginComponent,
     ForgotPasswordComponent,
     PasswordResetComponent,
-    BackupRestoreHistoryListComponent
+    BackupRestoreHistoryListComponent,
+    
     
   ],
   imports: [

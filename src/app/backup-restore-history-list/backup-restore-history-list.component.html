@@ -8,27 +8,32 @@
       <thead>
         <tr>
           <th>#Sr .No</th>
-          <th>Source IP Address</th>
-          <th>Source Database Name</th>
-          <th>Destination IP Address</th>
-          <th>Destination Database Name</th>
+         <th>Source Database Name</th>
+         <th>Destination Database Name</th>
           <th>Created Date</th>
           <th>Backup Percentage</th>
           <th>Restore Percentage</th>
           <th>Status</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
           <tr *ngFor="let history of lstHistory">
               <td>{{history.srNo}}</td>
-              <td>{{history.sourceIpAddress}}</td>
+            
               <td>{{history.sourceDatabaseName}}</td>
-              <td>{{history.destinationIpAddress}}</td>
+             
               <td>{{history.destinationDatabaseName}}</td>
               <td>{{history.createdDate | date}}</td>
               <td>{{history.backupPercentage?history.backupPercentage:0}} %</td>
               <td>{{history.restorePercentage?history.restorePercentage:0}} %</td>
               <td>{{history.status}}</td>
+              <td>
+               <a style="cursor: pointer;" *ngIf="history.status=='In Progress' || history.status=='Copying'" title="Abort"  class="p-1" ><i  class="text-warning fa fa-ban"></i></a>
+               <a  style="cursor: pointer;" class="p-1"  title="View"><i class="fa fa-eye"></i></a>
+               <a style="cursor: pointer;" title="Delete"  class="p-1" ><i  class="text-danger fa fa-trash"></i></a>
+              </td>
+                
              
             </tr>
         

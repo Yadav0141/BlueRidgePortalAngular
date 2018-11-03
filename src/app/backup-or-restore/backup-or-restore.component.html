@@ -8,7 +8,7 @@
         <h4>
             Source Configuration
         </h4>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="sourceDatabaseIP">Source IP Address</label>
             <input type="text" name="sourceDatabaseIP" [(ngModel)]="backupOrRestoreModel.sourceIpAddress" disabled id="sourceDatabaseIP" class="form-control"  />
         </div>
@@ -25,12 +25,12 @@
             <div class="text-danger"*ngIf="sourceDatabasePassword.invalid && sourceDatabasePassword.touched" >
                 Please enter source database password.
               </div>
-        </div>
+        </div> -->
         <div class="form-group">
             <label for="sourceDatabaseName"> Database Name <sup class="text-danger">*</sup> </label>
-            <select id="sourceDatabaseName" name="sourceDatabaseName" #sourceDatabaseName="ngModel" [(ngModel)]="backupOrRestoreModel.sourceDatabaseId" required class="form-control">
+            <select id="sourceDatabaseName" name="sourceDatabaseName" #sourceDatabaseName="ngModel" [(ngModel)]="backupOrRestoreModel.sourceDatabaseSelected" required class="form-control">
               <option value="">Select Source Database</option>
-              <option *ngFor="let database of sourceDatabases"  [value]="database.database_id">{{database.name}}</option>
+              <option *ngFor="let database of sourceDatabases"  [value]="database.value">{{database.name}}</option>
             </select>
            
 
@@ -58,10 +58,10 @@
         <h4>
             Destination Configuration
         </h4>
-        <div class="form-group">
+        <!-- <div class="form-group">
             <label for="destinationDatabaseIP">Destination IP Address</label>
             <input type="text" name="destinationDatabaseIP" [(ngModel)]="backupOrRestoreModel.destinationIpAddress" disabled id="destinationDatabaseIP" class="form-control"  />
-        </div>
+        </div> 
         <div class="form-group">
             <label for="destinationDatabaseUsername">  Username <sup class="text-danger">*</sup> </label>
             <input type="text" name="destinationDatabaseUsername" #destinationDatabaseUsername="ngModel"   [(ngModel)]="backupOrRestoreModel.destinationDatabaseUsername"  id="destinationDatabaseUsername" class="form-control" required  />
@@ -75,17 +75,33 @@
             <div class="text-danger"*ngIf="destinationDatabasePassword.invalid && destinationDatabasePassword.touched" >
                 Please enter destination database password.
             </div>
-        </div>
+        </div> -->
         <div class="form-group">
-            <label for="destinationDatabaseName"> Database Name <sup class="text-danger">*</sup></label>
+            <label for="destinationServerName"> Server Name <sup class="text-danger">*</sup> </label>
+            <select id="destinationServerName" name="destinationServerName" #destinationServerName="ngModel" [(ngModel)]="backupOrRestoreModel.destinationServerId" required class="form-control">
+              <option value="">Select Destination Server</option>
+              <option *ngFor="let database of destinationDBServers"  [value]="database.server_id">{{database.name}}</option>
+            </select>
+           
+    
+         <div class="text-danger" *ngIf="destinationServerName.invalid && destinationServerName.touched" >
+           Please select destination server.
+         </div>
+        </div>
+
+        <div class="form-group">
+            <label for="destinationDatabaseName"> JIRA Ticket Name<sup class="text-danger">*</sup></label>
             <input name="destinationDatabaseName" class="form-control" (blur)="errors=[];" [(ngModel)]="backupOrRestoreModel.destinationDatabaseName"  #destinationDatabaseName="ngModel"  id="destinationDatabaseName" required >
             <div class="text-danger" *ngIf="destinationDatabaseName.invalid && destinationDatabaseName.touched">
-                Destination database name is required.
+                JIRA Ticket name is required.
               </div>
               <div class="text-danger" *ngFor="let error of errors">
                         {{error}}
               </div>
-       </div>
+       </div> 
+
+      
+
       <div class="form-group" *ngIf="isSubmitDisable">
           <h4>Restore</h4>
         <circle-progress

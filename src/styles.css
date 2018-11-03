@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+a{
+    color: #20285d !important;
+    font-weight: 300;
+}
+.bg-darkblue,.btn-primary{
+    background-color:  #20285d !important;
+    border-color: #20285d !important;
+    color: white !important;
+}

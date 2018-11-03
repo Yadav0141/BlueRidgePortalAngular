@@ -12,6 +12,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
 import { PasswordResetComponent } from './password-reset/password-reset.component';
 import { BackupRestoreHistoryListComponent } from './backup-restore-history-list/backup-restore-history-list.component';
 
+
 @Injectable()
 export class ConnectionResolver implements Resolve<ISignalRConnection> {
 
